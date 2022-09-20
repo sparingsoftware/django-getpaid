@@ -4,6 +4,20 @@
 History
 =======
 
+
+Version 2.3.1 (2022-09-20)
+------------------------------
+
+* Fix compatibility with Django 3.1
+* Get currency from initial_data instead of data in serializer
+
+
+Version 2.3.0 (2020-05-03)
+------------------------------
+
+* Refactor - remove unnecessary code & reformat all files
+
+
 Version 2.2.0 (2020-05-03)
 ------------------------------
 
