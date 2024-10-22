@@ -87,6 +87,7 @@ TEMPLATES = [
 WSGI_APPLICATION = "example.wsgi.application"
 
 DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": ":memory:"}}
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 TIME_ZONE = "UTC"
 USE_I18N = False
