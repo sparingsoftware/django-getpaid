@@ -4,6 +4,12 @@
 History
 =======
 
+Version 4.2.0 (2024-10-22)
+------------------------------
+
+* Support for Django 4.2 and 5.1 only
+* Requires Python 3.9 or higher for Django 4.2 & Requires Python 3.10 or higher for Django 5.1
+
 
 Version 2.3.1 (2022-09-20)
 ------------------------------

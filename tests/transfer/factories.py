@@ -1,11 +1,12 @@
 import factory
 import swapper
 from django.conf import settings
+from factory.django import DjangoModelFactory
 
 from tests.factories import OrderFactory
 
 
-class PaymentFactory(factory.DjangoModelFactory):
+class PaymentFactory(DjangoModelFactory):
     order = factory.SubFactory(OrderFactory)
     amount_required = factory.SelfAttribute("order.total")
     currency = factory.SelfAttribute("order.currency")

@@ -1,9 +1,10 @@
 import factory
 import swapper
+from factory.django import DjangoModelFactory
 from paywall.models import PaymentEntry
 
 
-class OrderFactory(factory.DjangoModelFactory):
+class OrderFactory(DjangoModelFactory):
     name = factory.Faker("color_name")
     total = factory.Faker(
         "pydecimal", positive=True, right_digits=2, min_value=10, max_value=500
@@ -14,6 +15,6 @@ class OrderFactory(factory.DjangoModelFactory):
         model = swapper.load_model("getpaid", "Order")
 
 
-class PaywallEntryFactory(factory.DjangoModelFactory):
+class PaywallEntryFactory(DjangoModelFactory):
     class Meta:
         model = PaymentEntry

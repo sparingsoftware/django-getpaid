@@ -12,7 +12,7 @@ from django.forms import BaseForm
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import resolve_url
 from django.utils.timezone import now
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.views import View
 from django_fsm import (
     ConcurrentTransitionMixin,
@@ -168,7 +168,11 @@ class AbstractPayment(ConcurrentTransitionMixin, BackendFieldMixin, models.Model
     )
     currency = models.CharField(_("currency"), max_length=3)
     status = FSMField(
-        _("status"), choices=ps.CHOICES, default=ps.NEW, db_index=True, protected=True,
+        _("status"),
+        choices=ps.CHOICES,
+        default=ps.NEW,
+        db_index=True,
+        protected=True,
     )
     created_on = models.DateTimeField(_("created on"), auto_now_add=True, db_index=True)
     last_payment_on = models.DateTimeField(
@@ -494,7 +498,10 @@ class AbstractPayment(ConcurrentTransitionMixin, BackendFieldMixin, models.Model
             else:
                 logger.debug(
                     "Cannot mark as fully paid, left as partially paid.",
-                    extra={"payment_id": self.id, "payment_status": self.status,},
+                    extra={
+                        "payment_id": self.id,
+                        "payment_status": self.status,
+                    },
                 )
         elif result.get("async_call", False):
             if can_proceed(self.confirm_charge_sent):
@@ -502,7 +509,10 @@ class AbstractPayment(ConcurrentTransitionMixin, BackendFieldMixin, models.Model
             else:
                 logger.debug(
                     "Cannot confirm charge sent.",
-                    extra={"payment_id": self.id, "payment_status": self.status,},
+                    extra={
+                        "payment_id": self.id,
+                        "payment_status": self.status,
+                    },
                 )
         else:
             raise ChargeFailure("Error occurred while trying to charge locked amount.")
@@ -645,8 +655,14 @@ class AbstractPayment(ConcurrentTransitionMixin, BackendFieldMixin, models.Model
 
 class AbstractPayout(BackendFieldMixin, models.Model):
     shop_id = models.CharField(max_length=128, db_index=True)
-    customer_name = models.CharField(max_length=200, blank=True,)
-    description = models.CharField(max_length=128, blank=True,)
+    customer_name = models.CharField(
+        max_length=200,
+        blank=True,
+    )
+    description = models.CharField(
+        max_length=128,
+        blank=True,
+    )
     amount = models.DecimalField(
         _("amount requested"), blank=True, max_digits=20, decimal_places=2, null=True
     )
@@ -663,7 +679,11 @@ class AbstractPayout(BackendFieldMixin, models.Model):
         protected=True,
     )
     created_on = models.DateTimeField(_("created on"), auto_now_add=True, db_index=True)
-    failed_code = models.CharField(_("Reason of failure"), max_length=128, blank=True,)
+    failed_code = models.CharField(
+        _("Reason of failure"),
+        max_length=128,
+        blank=True,
+    )
 
     class Meta:
         abstract = True
