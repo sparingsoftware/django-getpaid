@@ -45,7 +45,11 @@ class CallbackDetailView(views.APIView):
     @transaction.atomic
     def post(self, request, pk, *args, **kwargs):
         try:
-            payment = Payment.objects.select_for_update(of=("self", "order")).get(pk=pk)
+            payment = (
+                Payment.objects.select_related("order")
+                .select_for_update(of=("self", "order"))
+                .get(pk=pk)
+            )
         except Payment.DoesNotExist:
             raise Http404("No %s matches the given query." % Payment._meta.object_name)
         return payment.handle_paywall_callback(request, *args, **kwargs)
