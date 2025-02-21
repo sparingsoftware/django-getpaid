@@ -1,5 +1,7 @@
 import swapper
 from django import http
+from django.db import transaction
+from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
@@ -70,9 +72,15 @@ class CallbackDetailView(View):
     The flow is then passed to :meth:`getpaid.models.AbstractPayment.handle_paywall_callback`.
     """
 
+    @transaction.atomic
     def post(self, request, pk, *args, **kwargs):
         Payment = swapper.load_model("getpaid", "Payment")
-        payment = get_object_or_404(Payment, pk=pk)
+
+        try:
+            payment = Payment.objects.select_for_update(of=("self", "order")).get(pk=pk)
+        except Payment.DoesNotExist:
+            raise Http404("No %s matches the given query." % Payment._meta.object_name)
+
         return payment.handle_paywall_callback(request, *args, **kwargs)
 
 
