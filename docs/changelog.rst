@@ -4,6 +4,11 @@
 History
 =======
 
+Version 4.2.1 (2025-02-21)
+------------------------------
+
+* Handle ConcurrentTransition error using select_for_update in CallbackDetailView
+
 Version 4.2.0 (2024-10-22)
 ------------------------------
 
